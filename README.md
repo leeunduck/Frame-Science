@@ -11,6 +11,10 @@
 ```text
 Frame-Science/
 ├── Backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   └── main.py
+│   └── requirements.txt
 ├── Frontend/
 └── README.md
 ```
@@ -50,6 +54,25 @@ Frontend/
 - `styles` : 전역 스타일
 - `assets` : 이미지, 아이콘 등 정적 리소스
 
+Backend는 FastAPI 애플리케이션의 최소 실행 구조부터 시작하며, 기능별 서비스 구조는 실제 도메인과 MSA 서비스 경계가 확정되는 과정에서 추가합니다.
+
+```text
+Backend/
+├── app/
+│   ├── __init__.py
+│   └── main.py
+└── requirements.txt
+```
+
+### Backend 디렉터리 구성
+
+- `app` : FastAPI 애플리케이션 코드
+- `app/__init__.py` : `app` 디렉터리를 Python 패키지로 사용하기 위한 파일
+- `app/main.py` : FastAPI 애플리케이션 시작점
+- `requirements.txt` : Backend 실행에 필요한 Python 패키지와 버전 관리
+
+로컬 Python 가상환경은 `Backend/.venv`를 사용하며 Git에는 포함하지 않습니다.
+
 ---
 
 ## 기술 스택
@@ -66,16 +89,16 @@ Frontend/
 
 ### Backend
 
-Backend는 현재 초기 프로젝트 세팅 전 단계입니다.
-
-기술 설계 기준으로 다음 기술을 사용합니다.
-
 - Python
 - FastAPI
+- Pydantic
 - PostgreSQL
 - SQLAlchemy 2.x
 - Alembic
 - psycopg
+- Uvicorn
+
+Python 패키지는 `venv + pip + requirements.txt` 방식으로 관리합니다.
 
 ### 공통 인프라
 
@@ -130,11 +153,67 @@ Lint를 확인합니다.
 npm run lint
 ```
 
-현재 Frontend 초기 세팅은 완료되었으며 개발 서버 실행, Build, Lint가 정상 동작하는 것을 확인했습니다.
+Frontend 초기 세팅은 완료되었으며 개발 서버 실행, Build, Lint가 정상 동작하는 것을 확인했습니다.
 
 ### 3. Backend 실행
 
-Backend 실행 방법은 초기 프로젝트 세팅 완료 후 추가합니다.
+Repository 루트에서 Backend 디렉터리로 이동합니다.
+
+```bash
+cd Backend
+```
+
+Python 가상환경을 생성합니다.
+
+```bash
+python3 -m venv .venv
+```
+
+가상환경을 활성화합니다.
+
+```bash
+source .venv/bin/activate
+```
+
+`requirements.txt`에 정의된 Backend 패키지를 설치합니다.
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+FastAPI 개발 서버를 실행합니다.
+
+```bash
+uvicorn app.main:app --reload
+```
+
+서버가 정상적으로 실행되면 다음 주소에서 Backend 응답을 확인할 수 있습니다.
+
+```text
+http://127.0.0.1:8000
+```
+
+FastAPI에서 자동으로 제공하는 API 문서는 다음 주소에서 확인할 수 있습니다.
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Backend 초기 세팅은 완료되었으며 FastAPI 서버 실행과 API 문서 접근이 정상 동작하는 것을 확인했습니다.
+
+### Backend 패키지 추가
+
+새로운 Python 패키지가 필요한 경우 가상환경이 활성화된 상태에서 설치합니다.
+
+```bash
+python -m pip install <package-name>
+```
+
+패키지를 추가하거나 버전을 변경한 뒤 현재 환경을 `requirements.txt`에 반영합니다.
+
+```bash
+python -m pip freeze > requirements.txt
+```
 
 ---
 
@@ -157,6 +236,19 @@ src/
 ├── services/
 └── styles/
 ```
+
+Backend는 현재 최소 FastAPI 실행 구조만 구성합니다.
+
+```text
+Backend/
+└── app/
+    ├── __init__.py
+    └── main.py
+```
+
+MSA를 기준으로 개발하지만 화면 메뉴를 기준으로 서비스를 미리 분리하지 않습니다.
+
+학생, 강의, 클리닉 등의 실제 기능을 설계하면서 각 도메인의 책임과 데이터 관계를 확인한 뒤 필요한 서비스 구조를 추가합니다.
 
 기능 개발 전에 불필요한 폴더나 구조를 미리 만들지 않고, 실제 기능 구현 과정에서 필요한 구조만 추가합니다.
 
