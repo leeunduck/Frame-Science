@@ -1,3 +1,14 @@
+:root {
+  --color-primary-pink: #F3A3C7;
+  --color-primary-lavender: #C7B7F4;
+  --color-text-primary: #5E5473;
+  --color-bg-pink: #FFF5FA;
+  --color-bg-lavender: #F4F1FF;
+  --color-border: #E8DFF3;
+  --color-white: #FFFFFF;
+  --color-error: #D85C86;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -21,4 +32,8 @@ select {
 
 button {
   cursor: pointer;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
